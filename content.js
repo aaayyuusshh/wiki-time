@@ -4,7 +4,10 @@ function parseText(node) {
         text += node.textContent;    
     } else if(node.nodeType === Node.ELEMENT_NODE) {
         for(let childNode of node.childNodes) {
-            text += parseText(childNode);
+            let childNodeHtmlTag = childNode.nodeName.toLowerCase();
+            if(childNodeHtmlTag != "style" && childNodeHtmlTag != "script" && childNodeHtmlTag != "img") {
+                text += parseText(childNode);
+            }
         }
     }
     return text;
