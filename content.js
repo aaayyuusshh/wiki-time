@@ -13,7 +13,7 @@ function parseText(node) {
                     console.log("--reached references--");
                     break;
             }
-            if(nodeHtmlTag != "style" && nodeHtmlTag != "script" && nodeHtmlTag != "img") {
+            if(nodeDisplayStyle != "none" && nodeHtmlTag != "style" && nodeHtmlTag != "script" && nodeHtmlTag != "img") {
                 text += parseText(childNode);
             }
         }
