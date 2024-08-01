@@ -4,7 +4,8 @@ function parseText(node) {
         text += node.textContent;    
     } else if(node.nodeType === Node.ELEMENT_NODE) {
         for(let childNode of node.childNodes) {
-            let childNodeHtmlTag = childNode.nodeName.toLowerCase();
+            let nodeHtmlTag = node.nodeName.toLowerCase();
+            let nodeDisplayStyle = window.getComputedStyle(node).getPropertyValue("display");
             if(childNode.nodeType === Node.ELEMENT_NODE 
                 && childNode.className.includes("mw-heading") 
                 && childNode.firstChild.nodeType == Node.ELEMENT_NODE 
@@ -12,7 +13,7 @@ function parseText(node) {
                     console.log("--reached references--");
                     break;
             }
-            if(childNodeHtmlTag != "style" && childNodeHtmlTag != "script" && childNodeHtmlTag != "img") {
+            if(nodeHtmlTag != "style" && nodeHtmlTag != "script" && nodeHtmlTag != "img") {
                 text += parseText(childNode);
             }
         }
