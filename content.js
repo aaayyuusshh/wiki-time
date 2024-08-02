@@ -14,7 +14,9 @@ function parseText(node) {
                     break;
             }
             if(nodeDisplayStyle != "none" && nodeHtmlTag != "style" && nodeHtmlTag != "script" && nodeHtmlTag != "img") {
-                text += parseText(childNode);
+                text += (" " + parseText(childNode));
+                // everytime parseText is called recursively, an extra space is added to the beginning of the output of that recursive call
+                // this helps with cases where multiple words are parsed without spaces(in tables so far), i.e., "LocationGreater Manchester"
             }
         }
     }
