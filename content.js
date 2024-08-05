@@ -23,6 +23,18 @@ function parseText(node) {
     return text;
 }
 
+function printChildNodes(node) {
+    console.log(node.childNodes);
+}
+
+function splitArticleText(articleText, delimeter) {
+    return articleText.split(' ');
+}
+
+const WORDS_PER_MINUTE = 200;
 console.log("script is running...");
 const bodyContent = document.querySelector(".mw-content-ltr");
-console.log(parseText(bodyContent));
+let articleText = parseText(bodyContent);
+console.log(articleText);
+let articleTextList =  splitArticleText(articleText);
+console.log(articleTextList);
