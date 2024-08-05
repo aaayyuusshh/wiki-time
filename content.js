@@ -28,7 +28,7 @@ function printChildNodes(node) {
 }
 
 function splitArticleText(articleText, delimeter) {
-    return articleText.split(' ');
+    return articleText.split(/\s+/);
 }
 
 const WORDS_PER_MINUTE = 200;
