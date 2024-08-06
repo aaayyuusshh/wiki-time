@@ -35,6 +35,10 @@ function filterEmptyStrings(articleTextList) {
     return articleTextList.filter(elem => elem.length > 0);
 }
 
+function calculateReadingTime(list) {
+    return list.length / WORDS_PER_MINUTE;
+}
+
 const WORDS_PER_MINUTE = 200;
 console.log("script is running...");
 const bodyContent = document.querySelector(".mw-content-ltr");
@@ -44,3 +48,5 @@ let articleTextList =  splitArticleText(articleText);
 console.log(articleTextList);
 let articleTextListFiltered  = filterEmptyStrings(articleTextList);
 console.log(articleTextListFiltered);
+let readingTime = calculateReadingTime(articleTextListFiltered);
+console.log(`estimated reading time: ${readingTime} mins`);
