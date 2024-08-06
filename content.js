@@ -31,6 +31,10 @@ function splitArticleText(articleText, delimeter) {
     return articleText.split(/\s+/);
 }
 
+function filterEmptyStrings(articleTextList) {
+    return articleTextList.filter(elem => elem.length > 0);
+}
+
 const WORDS_PER_MINUTE = 200;
 console.log("script is running...");
 const bodyContent = document.querySelector(".mw-content-ltr");
@@ -38,3 +42,5 @@ let articleText = parseText(bodyContent);
 console.log(articleText);
 let articleTextList =  splitArticleText(articleText);
 console.log(articleTextList);
+let articleTextListFiltered  = filterEmptyStrings(articleTextList);
+console.log(articleTextListFiltered);
