@@ -36,7 +36,7 @@ function filterEmptyStrings(articleTextList) {
 }
 
 function calculateReadingTime(list) {
-    return list.length / WORDS_PER_MINUTE;
+    return Math.ceil(list.length / WORDS_PER_MINUTE);
 }
 
 function displayReadingTime(time) {
