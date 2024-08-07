@@ -9,6 +9,7 @@
     "content_scripts" : [
         {
             "js": ["content.js"],
+            "css": ["style.css"],
             "matches": [
                 "https://en.wikipedia.org/wiki/*",
                 "https://en.m.wikipedia.org/wiki/*"

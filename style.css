@@ -1,0 +1,8 @@
+#readingTimeDisplay {
+    font-weight: 100;
+    font-size: 14px;
+    color: rgb(66, 66, 66);
+    padding: 0 0 5px 0;
+    margin: 0;
+    font-family: Arial, inherit;
+}

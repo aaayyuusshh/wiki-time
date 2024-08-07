@@ -39,6 +39,15 @@ function calculateReadingTime(list) {
     return list.length / WORDS_PER_MINUTE;
 }
 
+function displayReadingTime(time) {
+    const title = document.getElementById("firstHeading");
+    console.log(title);
+    const readingTime = document.createElement("p");
+    readingTime.textContent = `${time} min read 🕒`;
+    readingTime.id = "readingTimeDisplay";
+    title.appendChild(readingTime);
+}
+
 const WORDS_PER_MINUTE = 200;
 console.log("script is running...");
 const bodyContent = document.querySelector(".mw-content-ltr");
@@ -50,3 +59,4 @@ let articleTextListFiltered  = filterEmptyStrings(articleTextList);
 console.log(articleTextListFiltered);
 let readingTime = calculateReadingTime(articleTextListFiltered);
 console.log(`estimated reading time: ${readingTime} mins`);
+displayReadingTime(readingTime);
