@@ -43,7 +43,7 @@ function displayReadingTime(time) {
     const title = document.getElementById("firstHeading");
     console.log(title);
     const readingTime = document.createElement("p");
-    readingTime.textContent = `${time} min read 🕒`;
+    readingTime.textContent = `${time} min read`;
     readingTime.id = "readingTimeDisplay";
     title.appendChild(readingTime);
 }
