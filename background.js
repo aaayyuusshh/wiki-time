@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(details => {
-    if(details.reason ==  chrome.runtime.OnInstalledReason.UPDATE) {
+    if(details.reason ==  chrome.runtime.OnInstalledReason.INSTALL) {
        openTab("welcome.html");
     }
 });
