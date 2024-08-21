@@ -13,7 +13,6 @@
             "matches": [
                 "https://en.wikipedia.org/wiki/*",
                 "https://en.m.wikipedia.org/wiki/*"
-
             ]
         }
     ],
@@ -22,5 +21,6 @@
     },
     "action": {
         "default_popup": "popup.html"
-    }
+    },
+    "permissions": ["storage"]
 }

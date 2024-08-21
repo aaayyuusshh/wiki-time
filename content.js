@@ -35,8 +35,11 @@ function filterEmptyStrings(articleTextList) {
     return articleTextList.filter(elem => elem.length > 0);
 }
 
-function calculateReadingTime(list) {
-    return Math.ceil(list.length / WORDS_PER_MINUTE);
+async function calculateReadingTime(list) {
+    let result = await chrome.storage.local.get("wpm");
+    let wordsPerMinute = result.wpm;
+    console.log(`wpm from storage: ${wordsPerMinute}`);
+    return Math.ceil(list.length / wordsPerMinute);
 }
 
 function displayReadingTime(time) {
@@ -48,7 +51,6 @@ function displayReadingTime(time) {
     title.appendChild(readingTime);
 }
 
-const WORDS_PER_MINUTE = 200;
 console.log("script is running...");
 const bodyContent = document.querySelector(".mw-content-ltr");
 let articleText = parseText(bodyContent);
@@ -57,6 +59,7 @@ let articleTextList =  splitArticleText(articleText);
 console.log(articleTextList);
 let articleTextListFiltered  = filterEmptyStrings(articleTextList);
 console.log(articleTextListFiltered);
-let readingTime = calculateReadingTime(articleTextListFiltered);
-console.log(`estimated reading time: ${readingTime} mins`);
-displayReadingTime(readingTime);
+calculateReadingTime(articleTextListFiltered).then((readingTime) => {
+    console.log(`estimated reading time: ${readingTime} mins`);
+    displayReadingTime(readingTime);
+});
