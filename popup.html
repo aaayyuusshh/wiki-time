@@ -16,7 +16,12 @@
             <label for="medium">200 wpm (medium)</label>
             <input type="radio" id="fast" name="group-one" value="300">
             <label for="fast">300 wpm (fast)</label>
-        </div>        
+            <input type="radio" id="cust" name="group-one" value="custom">
+            <label for="cust">set custom wpm</label>
+            
+            <input type="number" id="custom-textbox" placeholder="enter custom wpm"  min="50" max="1000" style="display: none">
+            <button class="custom-set-btn" style="display: none">set</button>
+        </div>
     </div>
 </body>
 <script src="popup-script.js"></script>
