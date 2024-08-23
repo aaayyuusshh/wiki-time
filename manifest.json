@@ -20,7 +20,8 @@
         "service_worker": "background.js"
     },
     "action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_title": "click for wpm settings"
     },
     "permissions": ["storage"]
 }
