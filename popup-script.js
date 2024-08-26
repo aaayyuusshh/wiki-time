@@ -33,12 +33,25 @@ chrome.storage.local.get("wpm").then(result => {
         customTextbox.style.display = "block";
         customSetBtn.style.display = "block";
         customTextbox.value = storedWpm;
+        customSetBtn.disabled = true;
     }
 
     customSetBtn.addEventListener("click", () => {
+        console.log("here");
         let customWPM = customTextbox.value;
         if(customWPM) {
+            // should i handle this with async/await??
             chrome.storage.local.set({wpm: customWPM});
+            customSetBtn.disabled = true;
         }
-    })
+    });
+
+    customTextbox.addEventListener("input", () => {
+        if(customTextbox.value == '') {
+            customSetBtn.disabled = true;
+            console.log("empty");
+        } else {
+            customSetBtn.disabled = false;
+        }
+    });
 });

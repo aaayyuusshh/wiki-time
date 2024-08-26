@@ -84,3 +84,14 @@ body {
 .custom-set-btn:hover {
     background-color: #e0e0e0;
 }
+
+.custom-set-btn:disabled {
+    cursor: not-allowed;
+    background-color: #cccccc; 
+    border: 1px solid #999999;
+    font-style: italic;
+}
+
+.custom-set-btn:disabled:hover {
+    background-color: #cccccc;
+}
