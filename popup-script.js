@@ -16,6 +16,7 @@ chrome.storage.local.get("wpm").then(result => {
 
         radio.addEventListener("change", () => {
             customTextbox.value = '';
+            customSetBtn.disabled = true;
             if(radio.value == "custom") {
                 customTextbox.style.display = "block";
                 customSetBtn.style.display = "block";   
