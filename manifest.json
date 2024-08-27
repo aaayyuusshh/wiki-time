@@ -23,5 +23,9 @@
         "default_popup": "popup.html",
         "default_title": "click for wpm settings"
     },
-    "permissions": ["storage"]
+    "permissions": ["storage", "scripting"],
+    "host_permissions": [
+        "https://en.wikipedia.org/wiki/*",
+        "https://en.m.wikipedia.org/wiki/*"
+    ]
 }
