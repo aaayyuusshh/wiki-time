@@ -1,7 +1,10 @@
 chrome.runtime.onInstalled.addListener(async (details) => {
     if(details.reason ==  chrome.runtime.OnInstalledReason.INSTALL) {
-       openTab("welcome.html");
-       await chrome.storage.local.set({wpm: 200});
+        await chrome.action.setBadgeText({text: "on"});
+        // chrome.action.setBadgeBackgroundColor({color: "red"});
+        await chrome.storage.local.set({isExtensionOn: true});
+        openTab("welcome.html");
+        await chrome.storage.local.set({wpm: 200});
     }
 });
 
@@ -26,5 +29,12 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
             // });
             chrome.tabs.reload(tab.id);
         });
+    }
+
+    if(areaName == "local" && changes.isExtensionOn) {
+        console.log("change in on/off");
+        let isExtensionOn = changes.isExtensionOn.newValue;
+        let newState = isExtensionOn ? "on" : "off";
+        chrome.action.setBadgeText({text: newState});
     }
 });
