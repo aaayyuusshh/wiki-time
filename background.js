@@ -5,6 +5,12 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         await chrome.storage.local.set({isExtensionOn: true});
         openTab("welcome.html");
         await chrome.storage.local.set({wpm: 200});
+    } else { //UPDATE, CHROME_UPDATE, SHARED_MODULE_UPDATE
+        let result = await chrome.storage.local.get("isExtensionOn");
+        let isExtensionOn = result.isExtensionOn;
+        let currentState = isExtensionOn ? "on" : "off";
+        console.log(`[updated], current state: ${currentState}`);
+        await chrome.action.setBadgeText({text: currentState});
     }
 });
 
