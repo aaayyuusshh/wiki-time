@@ -95,3 +95,7 @@ body {
 .custom-set-btn:disabled:hover {
     background-color: #cccccc;
 }
+
+.toggle-btn {
+    cursor: pointer;
+}
