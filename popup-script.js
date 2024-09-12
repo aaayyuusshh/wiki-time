@@ -4,7 +4,9 @@ const customTextbox = document.getElementById("custom-textbox")
 const customSetBtn = document.querySelector(".custom-set-btn");
 const toggleBtn = document.querySelector(".toggle-btn");
 
-chrome.storage.local.get("wpm").then(result => {
+chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
+    setPopupState(result.isExtensionOn);
+
     console.log(result.wpm);
     let storedWpm = result.wpm;
     let matched = false;
@@ -60,6 +62,22 @@ chrome.storage.local.get("wpm").then(result => {
     toggleBtn.addEventListener("click", async () => {
         let result = await chrome.storage.local.get("isExtensionOn");
         let isExtensionOn = result.isExtensionOn;
+        setPopupState(!isExtensionOn);
         await chrome.storage.local.set({isExtensionOn: !isExtensionOn});
     });
 });
+
+
+function setPopupState(isExtensionOn) {
+    if(isExtensionOn) {
+        document.body.style.filter = "none";
+    } 
+    else {
+        document.body.style.filter = "grayscale(100%)";
+    }
+    setRadioState(isExtensionOn);
+}
+
+function setRadioState(bool) {
+    radios.forEach(radio => radio.disabled = !bool);
+}
