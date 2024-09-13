@@ -77,10 +77,10 @@ function setPopupState(isExtensionOn) {
     else {
         document.body.style.filter = "grayscale(100%)";
     }
-    setRadioState(isExtensionOn);
+    disablePopupControls(isExtensionOn);
 }
 
-function setRadioState(bool) {
+function disablePopupControls(bool) {
     radios.forEach(radio => radio.disabled = !bool);
     customTextbox.disabled = !bool;
     customSetBtn.disabled = true;
