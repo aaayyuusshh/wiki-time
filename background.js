@@ -20,21 +20,26 @@ function openTab(path) {
     })
 }
 
+async function refreshWikiTabs() {
+    let wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
+        console.log(wikiTabs);
+        wikiTabs.forEach((tab) => {
+            chrome.tabs.reload(tab.id);
+        });
+}
+
 // rerun content script when wpm value is changed through action popup
 chrome.storage.onChanged.addListener(async (changes, areaName) => {
     if(areaName == "local" && changes.wpm) {
         // console.log(`old wpm: ${changes.wpm?.oldValue}, new wpm: ${changes.wpm?.newValue}`);
-        let wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
-        console.log(wikiTabs);
-        wikiTabs.forEach((tab) => {
-            // rerunning in the same context is causing variable scoping issues
-            // just reload tabs for now as that will rerun the content script in a new context
-            // chrome.scripting.executeScript({
-            //     target: {tabId: tab.id},
-            //     files: ["content.js"]
-            // });
-            chrome.tabs.reload(tab.id);
-        });
+
+        // rerunning in the same context is causing variable scoping issues
+        // just reload tabs for now as that will rerun the content script in a new context
+        // chrome.scripting.executeScript({
+        //     target: {tabId: tab.id},
+        //     files: ["content.js"]
+        // });
+        refreshWikiTabs();
     }
 
     if(areaName == "local" && changes.isExtensionOn) {
@@ -42,11 +47,6 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
         let isExtensionOn = changes.isExtensionOn.newValue;
         let newState = isExtensionOn ? "on" : "off";
         chrome.action.setBadgeText({text: newState});
-        let wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
-        console.log(wikiTabs);
-        wikiTabs.forEach((tab) => {
-            chrome.tabs.reload(tab.id);
-        });
-        
+        refreshWikiTabs();
     }
 });
