@@ -51,15 +51,19 @@ function displayReadingTime(time) {
     title.appendChild(readingTime);
 }
 
-console.log("script is running...");
-const bodyContent = document.querySelector(".mw-content-ltr");
-let articleText = parseText(bodyContent);
-console.log(articleText);
-let articleTextList =  splitArticleText(articleText);
-console.log(articleTextList);
-let articleTextListFiltered  = filterEmptyStrings(articleTextList);
-console.log(articleTextListFiltered);
-calculateReadingTime(articleTextListFiltered).then((readingTime) => {
-    console.log(`estimated reading time: ${readingTime} mins`);
-    displayReadingTime(readingTime);
+chrome.storage.local.get("isExtensionOn").then(result => {
+    if(result.isExtensionOn) {
+        console.log("script is running...");
+        const bodyContent = document.querySelector(".mw-content-ltr");
+        let articleText = parseText(bodyContent);
+        console.log(articleText);
+        let articleTextList =  splitArticleText(articleText);
+        console.log(articleTextList);
+        let articleTextListFiltered  = filterEmptyStrings(articleTextList);
+        console.log(articleTextListFiltered);
+        calculateReadingTime(articleTextListFiltered).then((readingTime) => {
+            console.log(`estimated reading time: ${readingTime} mins`);
+            displayReadingTime(readingTime);
+        });
+    }
 });

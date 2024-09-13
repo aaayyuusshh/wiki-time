@@ -42,5 +42,11 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
         let isExtensionOn = changes.isExtensionOn.newValue;
         let newState = isExtensionOn ? "on" : "off";
         chrome.action.setBadgeText({text: newState});
+        let wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
+        console.log(wikiTabs);
+        wikiTabs.forEach((tab) => {
+            chrome.tabs.reload(tab.id);
+        });
+        
     }
 });
