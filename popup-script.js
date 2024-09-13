@@ -3,6 +3,8 @@ const customRadio = document.getElementById("cust");
 const customTextbox = document.getElementById("custom-textbox")
 const customSetBtn = document.querySelector(".custom-set-btn");
 const toggleBtn = document.querySelector(".toggle-btn");
+const popupContainer = document.querySelector(".popup-container");
+const customContainer = document.querySelector(".custom-container");
 
 chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
     setPopupState(result.isExtensionOn);
@@ -80,4 +82,6 @@ function setPopupState(isExtensionOn) {
 
 function setRadioState(bool) {
     radios.forEach(radio => radio.disabled = !bool);
+    customTextbox.disabled = !bool;
+    customSetBtn.disabled = true;
 }
