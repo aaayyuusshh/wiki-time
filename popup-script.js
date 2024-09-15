@@ -72,10 +72,12 @@ chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
 
 function setPopupState(isExtensionOn) {
     if(isExtensionOn) {
-        document.body.style.filter = "none";
+       popupContainer.style.filter = "none";
+        toggleBtn.textContent = "❚❚ disable wiki-time";
     } 
     else {
-        document.body.style.filter = "grayscale(100%)";
+       popupContainer.style.filter = "grayscale(100%)";
+        toggleBtn.textContent = "► enable wiki-time";
     }
     disablePopupControls(isExtensionOn);
 }
