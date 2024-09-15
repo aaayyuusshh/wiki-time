@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Helvetica, Arial, sans-serif;
     margin: 0;
@@ -115,4 +120,14 @@ body {
 
 .toggle-btn:hover {
     background-color: #29292af2;
+}
+
+.title-container {
+    display: flex;
+    font-size: 1.5em;
+    gap: 5px;
+    justify-content: center;
+}
+.icon {
+    width: 20%;
 }
