@@ -11,7 +11,7 @@ function openTab(path) {
 }
 
 async function refreshWikiTabs() {
-    let wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
+    const wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
     console.log(wikiTabs);
     wikiTabs.forEach((tab) => {
         chrome.tabs.reload(tab.id);
@@ -19,7 +19,7 @@ async function refreshWikiTabs() {
 }
 
 async function reExecuteContentScript() {
-    let wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
+    const wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
     wikiTabs.forEach((tab) => {
         chrome.scripting.executeScript({
             target: {tabId: tab.id},
@@ -29,7 +29,7 @@ async function reExecuteContentScript() {
 }
 
 async function setCurrentBadgeText(isExtensionOn) {
-    let currentState = isExtensionOn ? "on" : "off";
+    const currentState = isExtensionOn ? "on" : "off";
     console.log(`[updated], current state: ${currentState}`);
     await chrome.action.setBadgeText({text: currentState});
 }
@@ -39,8 +39,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         await setup();
         openTab("welcome.html");
     } else { //UPDATE, CHROME_UPDATE, SHARED_MODULE_UPDATE
-        let result = await chrome.storage.local.get("isExtensionOn");
-        let isExtensionOn = result.isExtensionOn;
+        const result = await chrome.storage.local.get("isExtensionOn");
+        const isExtensionOn = result.isExtensionOn;
         await setCurrentBadgeText(isExtensionOn);
     }
 });
@@ -56,7 +56,7 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
 
     if(areaName == "local" && changes.isExtensionOn) {
         console.log("change in on/off");
-        let isExtensionOn = changes.isExtensionOn.newValue;
+        const isExtensionOn = changes.isExtensionOn.newValue;
         await setCurrentBadgeText(isExtensionOn);
         await refreshWikiTabs();
     }
