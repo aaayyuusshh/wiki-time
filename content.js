@@ -1,4 +1,4 @@
-let ParserModule = (function() {
+const ParserModule = (function() {
     function isReferencesSection(node) {
         return (node.nodeType === Node.ELEMENT_NODE 
             && node.className.includes("mw-heading") 
@@ -43,7 +43,7 @@ let ParserModule = (function() {
 })();
 
 
-let Utils = (function() {
+const Utils = (function() {
     /**
      * in: "This   is a   sentence with   irregular   spacing."
      * out: ["This", "is", "a", "sentence", "with", "irregular", "spacing."].
@@ -67,14 +67,14 @@ let Utils = (function() {
 })();
 
 
-let TimeCalculatorModule = (function() {
+const TimeCalculatorModule = (function() {
     async function getReadingTime() {
-        let result = await chrome.storage.local.get("wpm");
+        const result = await chrome.storage.local.get("wpm");
         return result.wpm;
     }
 
     async function calculateReadingTime(list) {
-        let wordsPerMinute = await getReadingTime();
+        const wordsPerMinute = await getReadingTime();
         console.log(`wpm from storage: ${wordsPerMinute}`);
         return Math.ceil(list.length / wordsPerMinute);
     }
@@ -85,7 +85,7 @@ let TimeCalculatorModule = (function() {
 })();
 
 
-let UIModule = (function() {
+const UIModule = (function() {
     function displayReadingTime(time) {
         const title = document.getElementById("firstHeading");
         console.log(title);
@@ -100,18 +100,17 @@ let UIModule = (function() {
     }
 })();
 
-
-let MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule) {
+const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule) {
     async function run() {
-        let isExtensionOn = (await chrome.storage.local.get("isExtensionOn")).isExtensionOn;
+        const isExtensionOn = (await chrome.storage.local.get("isExtensionOn")).isExtensionOn;
         if(isExtensionOn) {
             console.log("script is running...");
             const bodyContent = document.querySelector(".mw-content-ltr");
-            let articleText = ParserModule.parseText(bodyContent);
+            const articleText = ParserModule.parseText(bodyContent);
             console.log(articleText);
-            let articleTextList = Utils.getArticleTextList(articleText); 
+            const articleTextList = Utils.getArticleTextList(articleText); 
             console.log(articleTextList);
-            let readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
+            const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
             console.log(`estimated reading time: ${readingTime} mins`);
             UIModule.displayReadingTime(readingTime);
         }
