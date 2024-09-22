@@ -102,21 +102,19 @@ let UIModule = (function() {
 
 
 let MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule) {
-    function run() {
-        chrome.storage.local.get("isExtensionOn").then(result => {
-            if(result.isExtensionOn) {
-                console.log("script is running...");
-                const bodyContent = document.querySelector(".mw-content-ltr");
-                let articleText = ParserModule.parseText(bodyContent);
-                console.log(articleText);
-                let articleTextList = Utils.getArticleTextList(articleText); 
-                console.log(articleTextList);
-                TimeCalculatorModule.calculateReadingTime(articleTextList).then((readingTime) => {
-                    console.log(`estimated reading time: ${readingTime} mins`);
-                    UIModule.displayReadingTime(readingTime);
-                });
-            }
-        });
+    async function run() {
+        let isExtensionOn = (await chrome.storage.local.get("isExtensionOn")).isExtensionOn;
+        if(isExtensionOn) {
+            console.log("script is running...");
+            const bodyContent = document.querySelector(".mw-content-ltr");
+            let articleText = ParserModule.parseText(bodyContent);
+            console.log(articleText);
+            let articleTextList = Utils.getArticleTextList(articleText); 
+            console.log(articleTextList);
+            let readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
+            console.log(`estimated reading time: ${readingTime} mins`);
+            UIModule.displayReadingTime(readingTime);
+        }
     }
 
     return {
