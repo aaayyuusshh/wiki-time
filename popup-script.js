@@ -6,48 +6,59 @@ const toggleBtn = document.querySelector(".toggle-btn");
 const popupContainer = document.querySelector(".popup-container");
 const customContainer = document.querySelector(".custom-container");
 
-chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
-    setPopupState(result.isExtensionOn);
+function saveWpm(wpm) {
+    chrome.storage.local.set({wpm: wpm});
+}
 
-    console.log(result.wpm);
-    let storedWpm = result.wpm;
+function showCustomWpmControls() {
+    customTextbox.style.display = "block";
+    customSetBtn.style.display = "block"; 
+}
+
+function hideCustomWpmControls() {
+    customTextbox.style.display = "none";
+    customSetBtn.style.display = "none"; 
+}
+
+function handleRadioChange(event) {
+    let radio = event.target;
+    customTextbox.value = '';
+    customSetBtn.disabled = true;
+    if(radio.value == "custom") {
+        showCustomWpmControls(); 
+    } else {
+        hideCustomWpmControls();
+        saveWpm(radio.value);
+    }
+}
+
+function setCustomWpmState(storedWpm) {
+    customRadio.checked = true;
+    showCustomWpmControls();
+    customTextbox.value = storedWpm;
+    customSetBtn.disabled = true;
+}
+
+function initializeRadios(storedWpm) {
     let matched = false;
     radios.forEach(radio => {
         if(radio.value == storedWpm) {
            radio.checked = true;
            matched = true;
-           console.log(radio.value)
         } 
-
-        radio.addEventListener("change", () => {
-            customTextbox.value = '';
-            customSetBtn.disabled = true;
-            if(radio.value == "custom") {
-                customTextbox.style.display = "block";
-                customSetBtn.style.display = "block";   
-            } else {
-                customTextbox.style.display = "none";
-                customSetBtn.style.display = "none";
-                console.log(`${radio.value}`);
-                chrome.storage.local.set({wpm: radio.value});
-            }
-        });
+        radio.addEventListener("change", handleRadioChange)
     });
 
     if(!matched && storedWpm) {
-        customRadio.checked = true;
-        customTextbox.style.display = "block";
-        customSetBtn.style.display = "block";
-        customTextbox.value = storedWpm;
-        customSetBtn.disabled = true;
+        setCustomWpmState(storedWpm);
     }
+}
 
+function initializeCustomWpmSection() {
     customSetBtn.addEventListener("click", () => {
-        console.log("here");
         let customWPM = customTextbox.value;
         if(customWPM) {
-            // should i handle this with async/await??
-            chrome.storage.local.set({wpm: customWPM});
+            saveWpm(customWPM);
             customSetBtn.disabled = true;
         }
     });
@@ -55,20 +66,20 @@ chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
     customTextbox.addEventListener("input", () => {
         if(customTextbox.value == '') {
             customSetBtn.disabled = true;
-            console.log("empty");
         } else {
             customSetBtn.disabled = false;
         }
     });
+}
 
+function initializeToggle() {
     toggleBtn.addEventListener("click", async () => {
         let result = await chrome.storage.local.get("isExtensionOn");
         let isExtensionOn = result.isExtensionOn;
         setPopupState(!isExtensionOn);
         await chrome.storage.local.set({isExtensionOn: !isExtensionOn});
     });
-});
-
+}
 
 function setPopupState(isExtensionOn) {
     if(isExtensionOn) {
@@ -87,3 +98,10 @@ function disablePopupControls(bool) {
     customTextbox.disabled = !bool;
     customSetBtn.disabled = true;
 }
+
+chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
+    setPopupState(result.isExtensionOn);
+    initializeRadios(result.wpm);
+    initializeCustomWpmSection();
+    initializeToggle();
+});
