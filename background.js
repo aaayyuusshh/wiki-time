@@ -61,3 +61,9 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
         await refreshWikiTabs();
     }
 });
+
+chrome.runtime.onStartup.addListener(async () => {
+    const result = await chrome.storage.local.get("isExtensionOn");
+    const isExtensionOn = result.isExtensionOn;
+    await setCurrentBadgeText(isExtensionOn);
+});
