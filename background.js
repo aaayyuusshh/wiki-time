@@ -12,7 +12,6 @@ function openTab(path) {
 
 async function refreshWikiTabs() {
     const wikiTabs = await chrome.tabs.query({url: "https://en.wikipedia.org/wiki/*"});
-    console.log(wikiTabs);
     wikiTabs.forEach((tab) => {
         chrome.tabs.reload(tab.id);
     });
@@ -30,7 +29,6 @@ async function reExecuteContentScript() {
 
 async function setCurrentBadgeText(isExtensionOn) {
     const currentState = isExtensionOn ? "on" : "off";
-    console.log(`[updated], current state: ${currentState}`);
     await chrome.action.setBadgeText({text: currentState});
 }
 
@@ -55,7 +53,6 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
     }
 
     if(areaName == "local" && changes.isExtensionOn) {
-        console.log("change in on/off");
         const isExtensionOn = changes.isExtensionOn.newValue;
         await setCurrentBadgeText(isExtensionOn);
         await refreshWikiTabs();

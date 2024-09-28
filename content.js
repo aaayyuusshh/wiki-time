@@ -24,7 +24,7 @@ const ParserModule = (function() {
         else if(node.nodeType === Node.ELEMENT_NODE) {
             for(let childNode of node.childNodes) {
                 if(isReferencesSection(childNode)) {
-                        console.log("--reached references/citations--");
+                        // console.log("--reached references/citations--");
                         break;
                 }
                 if(isExplorableNode(node)) {
@@ -75,7 +75,6 @@ const TimeCalculatorModule = (function() {
 
     async function calculateReadingTime(list) {
         const wordsPerMinute = await getReadingTime();
-        console.log(`wpm from storage: ${wordsPerMinute}`);
         return Math.ceil(list.length / wordsPerMinute);
     }
     
@@ -88,7 +87,6 @@ const TimeCalculatorModule = (function() {
 const UIModule = (function() {
     function displayReadingTime(time) {
         const title = document.getElementById("firstHeading");
-        console.log(title);
         const readingTime = document.createElement("p");
         readingTime.textContent = `${time} min read`;
         readingTime.id = "readingTimeDisplay";
@@ -107,11 +105,8 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             console.log("script is running...");
             const bodyContent = document.querySelector(".mw-content-ltr");
             const articleText = ParserModule.parseText(bodyContent);
-            console.log(articleText);
             const articleTextList = Utils.getArticleTextList(articleText); 
-            console.log(articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
-            console.log(`estimated reading time: ${readingTime} mins`);
             UIModule.displayReadingTime(readingTime);
         }
     }
