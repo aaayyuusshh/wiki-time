@@ -1,43 +1,93 @@
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
-    border: 1px solid black;
 }
 
-.popup-container {
-    background-color: #fff;
-    padding: 20px;
-    max-width: 90%;
-    width: 400px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.hero-section {
+    background: linear-gradient(135deg, #0c0c0d, #363636);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(28, 6, 6, 0.1);
+    width: 100%;
+    padding: 50px 0;
 }
 
-h1 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-p {
+.hero-content h1 {
+    font-size: 2.5rem;
+    color: #fff;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin: 10px 0 20px;
+    color: #f0f0f0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #f0f0f0;
+    color: #000000;
+    padding: 10px 15px;
+    border-radius: 5px;
     font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.cta-button:hover {
+    background-color: #fff;
+    color: #727272;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-li {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
+main {
+    flex-grow: 1;
+    /* width: 100%; */
+    /* text-align: center; */
+}
+
+.omni {
+    width: 15%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-image {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+
+.footer-section {
+    background: linear-gradient(135deg, #0c0c0d, #363636);
+    text-align: center;
+    width: 100%;
+    color: #f0f0f0;
+    padding: 12px 0 6px;
+}
+
+footer a {
+    color: rgb(0, 149, 255);
 }
