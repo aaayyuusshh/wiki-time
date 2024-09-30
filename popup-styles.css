@@ -11,15 +11,17 @@ body {
 
 .container {
     background-color: #ffffff;
-
-    padding: 10px 30px;
+    padding: 2px 30px 10px;
     text-align: center;
 }
 
 .popup-container {
     background-color: #ffffff;
-    min-width: fit-content;
+    min-width: 200px;
     border-bottom: 1px solid #c9c9c9;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .popup-container .header {
@@ -116,7 +118,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 8px;
-    width: 100%;
+    width: 140px;
 }
 
 .toggle-btn:hover {
@@ -127,18 +129,14 @@ body {
     display: flex;
     font-size: 1.5em;
     gap: 5px;
-    /* justify-content: center; */
     background: linear-gradient(135deg, #0c0c0d, #363636);
-    padding: 5px 0;
+    padding: 8px 0;
     color: white;
     padding-left: 15px;
 }
 
 .icon {
     width: 15%;
-}
-
-.icon {
     border: 0.5px solid black;
-    /* border-radius: 10px; */
+    border-radius: 5px;
 }
