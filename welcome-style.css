@@ -41,10 +41,15 @@ body {
     padding-top: 10px;
 }
 
-.hero-content p {
+.hero-content .main-text {
     font-size: 1.2rem;
-    margin: 10px 0 20px;
+    margin: 10px 0px 10px;
     color: #f0f0f0;
+}
+
+.hero-content .sub-text {
+    margin-bottom: 20px;
+    color: #f0f0f0c6;
 }
 
 a {
@@ -72,6 +77,11 @@ main {
     flex-grow: 1;
     /* width: 100%; */
     /* text-align: center; */
+}
+
+.para {
+    color: rgba(0, 0, 0, 0.575);
+    font-size: 0.9em;
 }
 
 .omni {
