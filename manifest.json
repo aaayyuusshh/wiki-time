@@ -9,8 +9,8 @@
     },
     "content_scripts" : [
         {
-            "js": ["content.js"],
-            "css": ["style.css"],
+            "js": ["src/scripts/content.js"],
+            "css": ["src/styles/style.css"],
             "matches": [
                 "https://en.wikipedia.org/wiki/*",
                 "https://en.m.wikipedia.org/wiki/*"
@@ -18,10 +18,10 @@
         }
     ],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "src/scripts/background.js"
     },
     "action": {
-        "default_popup": "popup.html",
+        "default_popup": "src/popup.html",
         "default_title": "click for wpm settings"
     },
     "permissions": ["storage", "scripting", "tabs"],

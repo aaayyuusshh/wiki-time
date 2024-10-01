@@ -35,7 +35,7 @@ async function setCurrentBadgeText(isExtensionOn) {
 chrome.runtime.onInstalled.addListener(async (details) => {
     if(details.reason ==  chrome.runtime.OnInstalledReason.INSTALL) {
         await setup();
-        openTab("welcome.html");
+        openTab("../index/welcome.html");
     } else { //UPDATE, CHROME_UPDATE, SHARED_MODULE_UPDATE
         const result = await chrome.storage.local.get("isExtensionOn");
         const isExtensionOn = result.isExtensionOn;
