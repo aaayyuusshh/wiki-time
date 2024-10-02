@@ -37,7 +37,7 @@ const DOMModule = (function() {
             elements.popupContainer.style.filter = "grayscale(100%)";
         },
         addToggleButtonText(isOn) {
-            elements.toggleBtn.textContent = isOn ? "❚❚ disable wiki-time" : "► enable wiki-time"; 
+            elements.toggleBtn.textContent = isOn ? "❚❚ disable WikiTime" : "► enable WikiTime"; 
         },
         toggleAllRadiosDisabledStatus(status) {
             elements.radios.forEach(radio => radio.disabled = status);
