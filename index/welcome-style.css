@@ -48,3 +48,68 @@ footer a {
         max-width: 15% !important;
     }
 }
+@media (min-width: 1450px) {
+    img.image {
+        max-width: 10% !important;
+    }
+    .top-container {
+        padding-top: 2em !important;
+        padding-bottom: 2em !important;
+    }
+    .image-container {
+        padding-top: 3em !important;
+    }
+}
+
+@keyframes clock {
+    8.333% {
+        content: '🕐';
+    }
+    16.666% {
+        content: '🕑';
+    }
+    25% {
+        content: '🕒';
+    }
+    33.333% {
+        content: '🕓';
+    }
+    41.666% {
+        content: '🕔';
+    }
+    50% {
+        content: '🕕';
+    }
+    58.333% {
+        content: '🕖';
+    }
+    66.666% {
+        content: '🕗';
+    }
+    75% {
+        content: '🕘';
+    }
+    83.333% {
+        content: '🕙';
+    }
+    91.666% {
+        content: '🕚';
+    }
+}
+
+.emoji {
+    min-width: 1.4em;
+    margin: 0.3em 0.4em;
+    text-align: center;
+}
+
+.emoji::after {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.clock::after {
+    content: '🕛';
+    animation-name: clock;
+    animation-duration: 5s;
+}
