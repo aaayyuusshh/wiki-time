@@ -113,11 +113,13 @@ const UIModule = (function() {
 })();
 
 const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule) {
+    const WIKIPEDIA_BODY = ".mw-content-ltr";
+    
     async function run() {
         const isExtensionOn = (await chrome.storage.local.get("isExtensionOn")).isExtensionOn;
         if(isExtensionOn) {
             console.log("script is running...");
-            const bodyContent = document.querySelector(".mw-content-ltr");
+            const bodyContent = document.querySelector(WIKIPEDIA_BODY);
             const articleText = ParserModule.parseText(bodyContent);
             const articleTextList = Utils.getArticleTextList(articleText); 
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
