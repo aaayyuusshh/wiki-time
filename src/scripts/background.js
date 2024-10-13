@@ -1,5 +1,4 @@
 async function setup() {
-    await chrome.action.setBadgeText({text: "on"});
     await chrome.storage.local.set({isExtensionOn: true});
     await chrome.storage.local.set({wpm: 200});
 }
@@ -38,8 +37,6 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         openTab("../index/welcome.html");
     } else { //UPDATE, CHROME_UPDATE, SHARED_MODULE_UPDATE
         const result = await chrome.storage.local.get("isExtensionOn");
-        const isExtensionOn = result.isExtensionOn;
-        await setCurrentBadgeText(isExtensionOn);
     }
 });
 
@@ -53,14 +50,6 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
     }
 
     if(areaName == "local" && changes.isExtensionOn) {
-        const isExtensionOn = changes.isExtensionOn.newValue;
-        await setCurrentBadgeText(isExtensionOn);
         await refreshWikiTabs();
     }
-});
-
-chrome.runtime.onStartup.addListener(async () => {
-    const result = await chrome.storage.local.get("isExtensionOn");
-    const isExtensionOn = result.isExtensionOn;
-    await setCurrentBadgeText(isExtensionOn);
 });
