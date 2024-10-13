@@ -6,10 +6,24 @@ const ParserModule = (function() {
             && (node.firstChild.getAttribute("id") === "References" || node.firstChild.getAttribute("id") === "Citations" ))
     }
 
-    function isExplorableNode(node) {
-        const nodeHtmlTag = node.nodeName.toLowerCase();
+    function isDisplayNone(node) {
         const nodeDisplayStyle = window.getComputedStyle(node).getPropertyValue("display");
-        return nodeDisplayStyle != "none" && !["style", "script", "img"].includes(nodeHtmlTag);
+        return nodeDisplayStyle == "none";
+    }
+    
+    function isInvalidTag(node) {
+        const nodeHtmlTag = node.nodeName.toLowerCase();
+        return ["style", "script", "img"].includes(nodeHtmlTag);
+    }
+
+    function isBracketReferences(node) {
+        return node.nodeName.toLowerCase() == "sup" && node.classList.contains("reference");
+    }
+   
+    function isExplorableNode(node) {
+        return !isDisplayNone(node)
+            && !isInvalidTag(node)
+            && !isBracketReferences(node);
     }
 
     function printChildNodes(node) {
