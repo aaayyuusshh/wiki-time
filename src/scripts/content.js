@@ -1,9 +1,11 @@
 const ParserModule = (function() {
     function isReferencesSection(node) {
-        return (node.nodeType === Node.ELEMENT_NODE 
+        return (
+            node.nodeType === Node.ELEMENT_NODE 
             && node.className.includes("mw-heading") 
             && node.firstChild.nodeType == Node.ELEMENT_NODE 
-            && (node.firstChild.getAttribute("id") === "References" || node.firstChild.getAttribute("id") === "Citations" ))
+            && ["References", "Citations", "Notes"].includes(node.firstChild.getAttribute("id"))
+        );
     }
 
     function isDisplayNone(node) {
@@ -114,7 +116,7 @@ const UIModule = (function() {
 
 const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule) {
     const WIKIPEDIA_BODY = ".mw-content-ltr";
-    
+
     async function run() {
         const isExtensionOn = (await chrome.storage.local.get("isExtensionOn")).isExtensionOn;
         if(isExtensionOn) {
