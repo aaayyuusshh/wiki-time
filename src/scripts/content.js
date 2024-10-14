@@ -21,11 +21,16 @@ const ParserModule = (function() {
     function isBracketReferences(node) {
         return node.nodeName.toLowerCase() == "sup" && node.classList.contains("reference");
     }
+
+    function isEditSection(node) {
+        return node.classList.contains("mw-editsection");
+    }
    
     function isExplorableNode(node) {
         return !isDisplayNone(node)
             && !isInvalidTag(node)
-            && !isBracketReferences(node);
+            && !isBracketReferences(node)
+            && !isEditSection(node);
     }
 
     function printChildNodes(node) {
