@@ -70,8 +70,10 @@ const Utils = (function() {
     }
     
     function filterEmptyStrings(articleTextList) {
-        return articleTextList.filter(elem => elem.length > 0);
-    }
+        return articleTextList.filter(elem => {
+	        return elem.length > 0 && elem != '.' && elem != ',';
+        });
+   }
 
     function getArticleTextList(articleText) {
         return filterEmptyStrings(splitArticleText(articleText));
