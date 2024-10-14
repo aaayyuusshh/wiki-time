@@ -4,7 +4,7 @@ const ParserModule = (function() {
             node.nodeType === Node.ELEMENT_NODE 
             && node.className.includes("mw-heading") 
             && node.firstChild.nodeType == Node.ELEMENT_NODE 
-            && ["References", "Citations", "Notes"].includes(node.firstChild.getAttribute("id"))
+            && ["References", "Citations", "Notes", "See_also"].includes(node.firstChild.getAttribute("id"))
         );
     }
 
