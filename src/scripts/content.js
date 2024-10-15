@@ -137,16 +137,23 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             const bodyContent = document.querySelector(WIKIPEDIA_BODY);
             const articleText = ParserModule.parseText(bodyContent);
             const articleTextList = Utils.getArticleTextList(articleText);
-            LOGGER(articleText, articleTextList);
+            // LOGGER(articleText, articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
             UIModule.displayReadingTime(readingTime);
         }
     }
 
     return {
-        run
+        run, LOGGER
     }
 })(ParserModule, Utils, TimeCalculatorModule, UIModule);
 
 // entry point
-MainModule.run();
+if(document.readyState != "complete") {
+    console.log("waiting for page to load...")
+    window.onload = () => {
+        MainModule.run();
+    }
+} else {
+    MainModule.run();
+}
