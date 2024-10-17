@@ -108,14 +108,25 @@ const Utils = (function() {
 
 
 const TimeCalculatorModule = (function() {
+    const SECONDS_PER_IMAGE = 5;
+
     async function getReadingTime() {
         const result = await chrome.storage.local.get("wpm");
         return result.wpm;
     }
 
-    async function calculateReadingTime(list) {
+    async function calculateTextReadingTime(list) {
         const wordsPerMinute = await getReadingTime();
-        return Math.ceil(list.length / wordsPerMinute);
+        return list.length / wordsPerMinute;
+    }
+
+    function calculateImageReadingTime(numOfImages) {
+        let imagesTimeInSeconds = numOfImages * SECONDS_PER_IMAGE;
+        return imagesTimeInSeconds/60;
+    }
+
+    async function calculateReadingTime(list, numOfImages) {
+        return Math.ceil(await calculateTextReadingTime(list) + calculateImageReadingTime(numOfImages));
     }
     
     return {
@@ -155,8 +166,9 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             const articleText = ParserModule.parseText(bodyContent);
             LOGGER(`image count: ${ParserModule.getImageCount()}`);
             const articleTextList = Utils.getArticleTextList(articleText);
+            const numOfImages = ParserModule.getImageCount();
             // LOGGER(articleText, articleTextList);
-            const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
+            const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList, numOfImages);
             UIModule.displayReadingTime(readingTime);
         }
     }
