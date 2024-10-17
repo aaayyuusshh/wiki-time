@@ -1,4 +1,6 @@
 const ParserModule = (function() {
+    let imageCount = 0;
+
     function isReferencesSection(node) {
         return (
             node.nodeType === Node.ELEMENT_NODE 
@@ -15,7 +17,7 @@ const ParserModule = (function() {
     
     function isInvalidTag(node) {
         const nodeHtmlTag = node.nodeName.toLowerCase();
-        return ["style", "script", "img"].includes(nodeHtmlTag);
+        return ["style", "script"].includes(nodeHtmlTag);
     }
 
     function isBracketReferences(node) {
@@ -33,6 +35,18 @@ const ParserModule = (function() {
             && !isEditSection(node);
     }
 
+    function isImage(node) {
+        return node.nodeName.toLowerCase() === "img";
+    }
+    
+    function incrementImageCount() {
+        imageCount++;
+    }
+
+    function getImageCount() {
+        return imageCount;
+    }
+
     function printChildNodes(node) {
         console.log(node.childNodes);
     }
@@ -43,6 +57,9 @@ const ParserModule = (function() {
             text += node.textContent;    
         } 
         else if(node.nodeType === Node.ELEMENT_NODE) {
+            if(isImage(node)) {
+                incrementImageCount();
+            }
             for(let childNode of node.childNodes) {
                 if(isReferencesSection(childNode)) {
                         // console.log("--reached references/citations--");
@@ -59,7 +76,7 @@ const ParserModule = (function() {
     }
 
     return {
-        parseText
+        parseText, getImageCount
     }
 })();
 
@@ -136,6 +153,7 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             console.log("script is running...");
             const bodyContent = document.querySelector(WIKIPEDIA_BODY);
             const articleText = ParserModule.parseText(bodyContent);
+            LOGGER(`image count: ${ParserModule.getImageCount()}`);
             const articleTextList = Utils.getArticleTextList(articleText);
             // LOGGER(articleText, articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList);
