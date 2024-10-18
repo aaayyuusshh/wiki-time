@@ -57,9 +57,10 @@ const ParserModule = (function() {
             text += node.textContent;    
         } 
         else if(node.nodeType === Node.ELEMENT_NODE) {
-            if(isImage(node)) {
+            if(isImage(node) && !isDisplayNone(node)) {
                 incrementImageCount();
             }
+            // images don't have children so this loop won't run
             for(let childNode of node.childNodes) {
                 if(isReferencesSection(childNode)) {
                         // console.log("--reached references/citations--");
