@@ -1,0 +1,17 @@
+{
+  "name": "wiki-time",
+  "version": "1.0.0",
+  "description": "wiki-time chrome extension",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
