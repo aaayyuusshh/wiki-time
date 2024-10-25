@@ -89,12 +89,15 @@ const Utils = (function() {
      * treats multiple consecutive spaces, tabs, or new lines as a single separator
      * */ 
     function splitArticleText(articleText) {
+        if(articleText.trim() === '')
+            return [''];
+
         return articleText.split(/\s+/);
     }
     
     function filterEmptyStrings(articleTextList) {
         return articleTextList.filter(elem => {
-	        return elem.length > 0 && elem != '.' && elem != ',';
+	        return elem.length > 0 && !/^[\p{P}\s]+$/u.test(elem);
         });
    }
 
@@ -103,7 +106,7 @@ const Utils = (function() {
     }
 
     return {
-        getArticleTextList
+        getArticleTextList, splitArticleText, filterEmptyStrings
     }
 })();
 
@@ -165,8 +168,10 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             console.log("script is running...");
             const bodyContent = document.querySelector(WIKIPEDIA_BODY);
             const articleText = ParserModule.parseText(bodyContent);
+            console.log(articleText);
             LOGGER(`image count: ${ParserModule.getImageCount()}`);
             const articleTextList = Utils.getArticleTextList(articleText);
+            console.log(articleTextList);
             const numOfImages = ParserModule.getImageCount();
             // LOGGER(articleText, articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList, numOfImages);
@@ -188,3 +193,5 @@ if(document.readyState != "complete") {
 } else {
     MainModule.run();
 }
+
+module.exports = {Utils}
