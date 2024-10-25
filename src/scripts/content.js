@@ -101,12 +101,12 @@ const Utils = (function() {
         });
    }
 
-    function getArticleTextList(articleText) {
+    function extractArticleWords(articleText) {
         return filterNonWords(splitArticleText(articleText));
     }
 
     return {
-        getArticleTextList, splitArticleText, filterNonWords
+        extractArticleWords, splitArticleText, filterNonWords
     }
 })();
 
@@ -170,7 +170,7 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             const articleText = ParserModule.parseText(bodyContent);
             console.log(articleText);
             LOGGER(`image count: ${ParserModule.getImageCount()}`);
-            const articleTextList = Utils.getArticleTextList(articleText);
+            const articleTextList = Utils.extractArticleWords(articleText);
             console.log(articleTextList);
             const numOfImages = ParserModule.getImageCount();
             // LOGGER(articleText, articleTextList);

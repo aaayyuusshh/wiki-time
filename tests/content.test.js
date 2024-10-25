@@ -33,4 +33,24 @@ describe("content/Utils", () => {
         expect(result).toEqual([]);
     });
   });
+
+  describe("extractArticleWords", () => {
+    it("should extract words separated by spaces, tabs or newlines", () => {
+      const input = "This string is ,,, ..,. \n\t             \n irregularly spaced...";
+      const result = Utils.extractArticleWords(input);
+      expect(result).toEqual(["This", "string", "is", "irregularly", "spaced..."]);
+    });
+  
+    it("should keep punctuations attached to a word but remove lone punctuations", () => {
+        const input = "Hello, , , ,                    (this) is a . test.   300";
+        const result = Utils.extractArticleWords(input);
+        expect(result).toEqual(["Hello,", "(this)", "is", "a", "test.", "300"]);
+    });
+  
+    it("should remove long attached punctuations", () => {
+        const input = "  This.  ,   is. a.           test. ,,,,,, ... ..,.,,";
+        const result = Utils.extractArticleWords(input);
+        expect(result).toEqual(["This.", "is.", "a.", "test."]);
+    });
+  });
 });
