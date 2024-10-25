@@ -95,18 +95,18 @@ const Utils = (function() {
         return articleText.split(/\s+/);
     }
     
-    function filterEmptyStrings(articleTextList) {
+    function filterNonWords(articleTextList) {
         return articleTextList.filter(elem => {
 	        return elem.length > 0 && !/^[\p{P}\s]+$/u.test(elem);
         });
    }
 
     function getArticleTextList(articleText) {
-        return filterEmptyStrings(splitArticleText(articleText));
+        return filterNonWords(splitArticleText(articleText));
     }
 
     return {
-        getArticleTextList, splitArticleText, filterEmptyStrings
+        getArticleTextList, splitArticleText, filterNonWords
     }
 })();
 

@@ -19,4 +19,18 @@ describe("content/Utils", () => {
         expect(result).toEqual([""]);
     });
   });
+  
+  describe('filterNonWords', () => {
+    it('should filter out empty strings, periods, and commas', () => {
+        const input = ["Hello,", "", "...", ",", "world."];
+        const result = Utils.filterNonWords(input);
+        expect(result).toEqual(["Hello,", "world."]);
+    });
+
+    it('should return an empty array when given all empty strings', () => {
+        const input = ["", "", ""];
+        const result = Utils.filterNonWords(input);
+        expect(result).toEqual([]);
+    });
+  });
 });
