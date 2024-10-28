@@ -1,4 +1,4 @@
 module.exports = {
-    testEnvironment: 'jsdom',
-    setupFiles: ["<rootDir>/tests/chrome-mock.js"],
+    testEnvironment: "node",
+    setupFiles: ["<rootDir>/tests/chrome-mock.js",],
 };
