@@ -2,18 +2,13 @@ global.chrome = {
     storage: {
         local: {
             get: jest.fn(key => {
-                return Promise.resolve((resolve => {
-                    if (key === "wpm") {
-                        resolve({wpm: 300});
-                    }
-                    else if(key === "isExtensionOn") {
-                        resolve({isExtensionOn: true});
-                    }
-                    else {
-                        resolve({});
-                    }
-                }));
+                // Directly returning a Promise that resolves the expected value.
+                return Promise.resolve(
+                    key === "wpm" ? { wpm: 300 } :
+                    key === "isExtensionOn" ? { isExtensionOn: true } :
+                    {}
+                );
             })
         }
     }
-}
+};
