@@ -134,7 +134,7 @@ const TimeCalculatorModule = (function() {
     }
     
     return {
-        calculateReadingTime
+        calculateReadingTime, getReadingTime
     }
 })();
 
@@ -167,6 +167,10 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
         if(isExtensionOn) {
             console.log("script is running...");
             const bodyContent = document.querySelector(WIKIPEDIA_BODY);
+            if (!bodyContent) {
+                console.error("error: bodyContent is null");
+                return;
+            }
             const articleText = ParserModule.parseText(bodyContent);
             console.log(articleText);
             LOGGER(`image count: ${ParserModule.getImageCount()}`);
@@ -194,4 +198,4 @@ if(document.readyState != "complete") {
     MainModule.run();
 }
 
-module.exports = {Utils}
+module.exports = {Utils, TimeCalculatorModule}
