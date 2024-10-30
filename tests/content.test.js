@@ -1,4 +1,4 @@
-const {Utils} = require('../src/scripts/content.js');
+const {Utils, TimeCalculatorModule} = require('../src/scripts/content.js');
 
 describe("content/Utils", () => {
 
@@ -51,6 +51,29 @@ describe("content/Utils", () => {
         const input = "  This.  ,   is. a.           test. ,,,,,, ... ..,.,,";
         const result = Utils.extractArticleWords(input);
         expect(result).toEqual(["This.", "is.", "a.", "test."]);
+    });
+  });
+});
+
+
+describe("content/TimeCalculatorModule", () => {
+
+  //@TODO can lowkey be added to chrome mock testing
+  describe("getReadingTime", () => {
+    it("should return the correct wpm", async () => {
+      const result = await TimeCalculatorModule.getReadingTime();
+      expect(result).toEqual(300);
+    });
+
+    it("should return 300 even if there was an error in setting wpm", async () => {
+      chrome.storage.local.get.mockImplementationOnce((key) => {
+        if(key === "wpm") return Promise.resolve({});
+        if(key === "isExtensionOn") return Promise.resolve({isExtensionOn: true});
+        return Promise.resolve({});
+      });
+    
+      const result = await TimeCalculatorModule.getReadingTime();
+      expect(result).toEqual(300);
     });
   });
 });

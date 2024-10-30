@@ -116,6 +116,9 @@ const TimeCalculatorModule = (function() {
 
     async function getReadingTime() {
         const result = await chrome.storage.local.get("wpm");
+        if(!result.wpm) {
+            return 300;
+        }
         return result.wpm;
     }
 
@@ -134,7 +137,7 @@ const TimeCalculatorModule = (function() {
     }
     
     return {
-        calculateReadingTime, getReadingTime
+        calculateReadingTime, getReadingTime, calculateTextReadingTime, calculateImageReadingTime
     }
 })();
 
@@ -172,10 +175,10 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
                 return;
             }
             const articleText = ParserModule.parseText(bodyContent);
-            console.log(articleText);
+            // console.log(articleText);
             LOGGER(`image count: ${ParserModule.getImageCount()}`);
             const articleTextList = Utils.extractArticleWords(articleText);
-            console.log(articleTextList);
+            // console.log(articleTextList);
             const numOfImages = ParserModule.getImageCount();
             // LOGGER(articleText, articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList, numOfImages);
