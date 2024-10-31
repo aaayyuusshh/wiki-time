@@ -100,4 +100,27 @@ describe("content/TimeCalculatorModule", () => {
       expect(result).toEqual(0);
     });
   });
+
+  describe("calculateReadingTime", () => {
+    it("should return 0 mins for no words and no images", async () => {
+      const result = await TimeCalculatorModule.calculateReadingTime([], 0);
+      expect(result).toEqual(0);
+    });
+
+    it("should return correct ceiling value", async () => {
+      const result = await TimeCalculatorModule.calculateReadingTime(Array(14488).fill("words"), 66);
+      const expected =  Math.ceil((14488/300) + ((5*66)/60)); // 54
+      expect(result).toEqual(expected);
+    });
+
+    it("should return 1 min for 1 word [this function ceils]", async () => {
+      const result = await TimeCalculatorModule.calculateReadingTime(["word"], 0);
+      expect(result).toEqual(1);
+    });
+
+    it("should return 1 min for just 1 image [this function ceils]", async () => {
+      const result = await TimeCalculatorModule.calculateReadingTime([], 1);
+      expect(result).toEqual(1);
+    });
+  });
 });
