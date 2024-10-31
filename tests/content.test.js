@@ -1,4 +1,4 @@
-const {Utils, TimeCalculatorModule} = require('../src/scripts/content.js');
+const {Utils, TimeCalculatorModule, UIModule} = require('../src/scripts/content.js');
 
 describe("content/Utils", () => {
 
@@ -74,6 +74,18 @@ describe("content/TimeCalculatorModule", () => {
     
       const result = await TimeCalculatorModule.getReadingTime();
       expect(result).toEqual(300);
+    });
+  });
+
+  describe("calculateTextReadingTime", () => {
+    it("should return 2 mins for 600 words", async () => {
+      const result = await TimeCalculatorModule.calculateTextReadingTime(Array(600).fill("words"));
+      expect(result).toEqual(2);
+    });
+
+    it("should return 2.5 mins for 750 words [this function doesn't ceil]", async () => {
+      const result = await TimeCalculatorModule.calculateTextReadingTime(Array(750).fill("words"));
+      expect(result).toEqual(2.5);
     });
   });
 });
