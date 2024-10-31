@@ -88,4 +88,16 @@ describe("content/TimeCalculatorModule", () => {
       expect(result).toEqual(2.5);
     });
   });
+
+  describe("calculateImageReadingTime", () => {
+    it("should return =~ 0.4166.. mins for 5 images", () => {
+      const result = TimeCalculatorModule.calculateImageReadingTime(5);
+      expect(result).toBeCloseTo(0.417, 3);
+    });
+
+    it("should return 0 mins for no images", () => {
+      const result = TimeCalculatorModule.calculateImageReadingTime(0);
+      expect(result).toEqual(0);
+    });
+  });
 });
