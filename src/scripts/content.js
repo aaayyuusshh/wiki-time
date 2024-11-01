@@ -180,7 +180,7 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
             const articleTextList = Utils.extractArticleWords(articleText);
             // console.log(articleTextList);
             const numOfImages = ParserModule.getImageCount();
-            // LOGGER(articleText, articleTextList);
+            LOGGER(articleText, articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList, numOfImages);
             UIModule.displayReadingTime(readingTime);
         }
@@ -201,4 +201,8 @@ if(document.readyState != "complete") {
     MainModule.run();
 }
 
-module.exports = {Utils, TimeCalculatorModule}
+module.exports = {
+    Utils, 
+    TimeCalculatorModule, 
+    UIModule
+}
