@@ -124,3 +124,25 @@ describe("content/TimeCalculatorModule", () => {
     });
   });
 });
+
+
+describe.only("UIModule displayReadingTime", () => {
+
+  it("should insert the reading time element into the DOM", () => {
+    UIModule.displayReadingTime(10);
+    const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
+    expect(readingTimeDisplay).not.toBeNull();
+  });
+
+  /**
+   * will fail bc MainModule.run() will already set the value for element readingTimeDisplay based on mocked dom
+   * @TODO need to isolate modules for this to work, can't have entry point running in same scope/file as module definitions
+   */
+  it("should insert the specified reading time into the DOM", () => {
+    UIModule.displayReadingTime(10);
+    const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
+    const readingTime = readingTimeDisplay.textContent;
+    expect(readingTime).toEqual("10 min read");
+  });
+});
+
