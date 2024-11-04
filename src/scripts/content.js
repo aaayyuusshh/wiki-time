@@ -201,8 +201,13 @@ if(document.readyState != "complete") {
     MainModule.run();
 }
 
-module.exports = {
-    Utils, 
-    TimeCalculatorModule, 
-    UIModule
+// only export modules if we are running in a node.js env(for testing)
+if(typeof module !== "undefined" && module.exports) {
+    module.exports = {
+        Utils, 
+        TimeCalculatorModule, 
+        UIModule,
+        ParserModule, 
+        MainModule
+    };
 }
