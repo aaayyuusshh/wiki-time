@@ -191,15 +191,6 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
     }
 })(ParserModule, Utils, TimeCalculatorModule, UIModule);
 
-// entry point
-if(document.readyState != "complete") {
-    console.log("waiting for page to load...")
-    window.onload = () => {
-        MainModule.run();
-    }
-} else {
-    MainModule.run();
-}
 
 // only export modules if we are running in a node.js env(for testing)
 if(typeof module !== "undefined" && module.exports) {
@@ -210,4 +201,13 @@ if(typeof module !== "undefined" && module.exports) {
         ParserModule, 
         MainModule
     };
+} else { // only hit entry point if running in the browser
+    if(document.readyState != "complete") {
+        console.log("waiting for page to load...")
+        window.onload = () => {
+            MainModule.run();
+        }
+    } else {
+        MainModule.run();
+    }
 }
