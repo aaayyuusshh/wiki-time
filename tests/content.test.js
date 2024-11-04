@@ -126,7 +126,7 @@ describe("content/TimeCalculatorModule", () => {
 });
 
 
-describe("UIModule displayReadingTime", () => {
+describe("content/UIModule displayReadingTime", () => {
 
   it("should insert the reading time element into the DOM", () => {
     UIModule.displayReadingTime(10);
@@ -139,5 +139,33 @@ describe("UIModule displayReadingTime", () => {
     const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
     const readingTime = readingTimeDisplay.textContent;
     expect(readingTime).toEqual("10 min read");
+  });
+});
+
+
+describe("content/ParserModule parseText", () => {
+
+  it("should ignore elements with display none", () => {
+    
+  });
+
+  it("should ignore style and script tags", () => {
+    
+  });
+
+  it("should ignore bracket references like [1]", () => {
+    
+  });
+
+  it("should ignore edit section", () => {
+    
+  });
+
+  it("should ignore anything past See Also section", () => {
+    
+  });
+
+  it("should return correct image count", () => {
+    
   });
 });
