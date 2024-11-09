@@ -142,7 +142,7 @@ describe("content/UIModule displayReadingTime", () => {
   });
 });
 
-describe.only("content/ParserModule ParserModule.parseText", () => {
+describe.only("content/ParserModule parseText", () => {
   let mockNode;
 
   beforeEach(() => {
@@ -156,5 +156,34 @@ describe.only("content/ParserModule ParserModule.parseText", () => {
     // clear mock state between tests
     // @TODO properly learn what this does
     jest.clearAllMocks();
+  });
+
+  it("should ignore elements with display none", () => {
+    mockNode.innerHTML = `
+      <div style="display: none;">Hidden Content</div>
+      <div>Visible Content</div>
+    `;
+ 
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("Visible Content");
+    expect(result).not.toContain("Hidden Content");
+  });
+
+  it("should ignore elements with display none, including nested elements", () => {
+    mockNode.innerHTML = `
+      <div style="display: none;">
+        Hidden Content
+        <p>
+          Deeply Hidden Content
+          <span>Deeply Hidden Content</span>
+        </p>
+      </div>
+      <div>Visible Content</div>
+    `;
+
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("Visible Content");
+    expect(result).not.toContain("Hidden Content");
+    expect(result).not.toContain("Deeply Hidden Content");
   });
 });
