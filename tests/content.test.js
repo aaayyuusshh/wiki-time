@@ -1,4 +1,4 @@
-const {Utils, TimeCalculatorModule, UIModule} = require('../src/scripts/content.js');
+const {Utils, TimeCalculatorModule, UIModule, ParserModule} = require('../src/scripts/content.js');
 
 describe("content/Utils", () => {
 
@@ -142,30 +142,19 @@ describe("content/UIModule displayReadingTime", () => {
   });
 });
 
+describe.only("content/ParserModule ParserModule.parseText", () => {
+  let mockNode;
 
-describe("content/ParserModule parseText", () => {
-
-  it("should ignore elements with display none", () => {
-    
+  beforeEach(() => {
+    // create a fresh dom node before each test
+    mockNode = document.createElement("div");
+    document.body.appendChild(mockNode);
   });
 
-  it("should ignore style and script tags", () => {
-    
-  });
-
-  it("should ignore bracket references like [1]", () => {
-    
-  });
-
-  it("should ignore edit section", () => {
-    
-  });
-
-  it("should ignore anything past See Also section", () => {
-    
-  });
-
-  it("should return correct image count", () => {
-    
+  afterEach(() => {
+    document.body.removeChild(mockNode);
+    // clear mock state between tests
+    // @TODO properly learn what this does
+    jest.clearAllMocks();
   });
 });
