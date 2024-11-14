@@ -1,6 +1,6 @@
 const {Utils, TimeCalculatorModule, UIModule, ParserModule} = require('../src/scripts/content.js');
 
-describe("content/Utils", () => {
+describe("Utils", () => {
 
   describe("splitArticleText", () => {
     it("should handle crazily irregularly spaced words with tabs and newlines correctly", () => {
@@ -56,7 +56,7 @@ describe("content/Utils", () => {
 });
 
 
-describe("content/TimeCalculatorModule", () => {
+describe("TimeCalculatorModule", () => {
 
   //@TODO can lowkey be added to chrome mock testing
   describe("getReadingTime", () => {
@@ -126,148 +126,149 @@ describe("content/TimeCalculatorModule", () => {
 });
 
 
-describe("content/UIModule displayReadingTime", () => {
-
-  it("should insert the reading time element into the DOM", () => {
-    UIModule.displayReadingTime(10);
-    const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
-    expect(readingTimeDisplay).not.toBeNull();
-  });
-
-  it("should insert the specified reading time into the DOM", () => {
-    UIModule.displayReadingTime(10);
-    const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
-    const readingTime = readingTimeDisplay.textContent;
-    expect(readingTime).toEqual("10 min read");
+describe("UIModule", () => {
+  describe("displayReadingTime", () => {
+    it("should insert the reading time element into the DOM", () => {
+      UIModule.displayReadingTime(10);
+      const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
+      expect(readingTimeDisplay).not.toBeNull();
+    });
+  
+    it("should insert the specified reading time into the DOM", () => {
+      UIModule.displayReadingTime(10);
+      const readingTimeDisplay = global.document.getElementById("readingTimeDisplay");
+      const readingTime = readingTimeDisplay.textContent;
+      expect(readingTime).toEqual("10 min read");
+    });
   });
 });
 
-describe("content/ParserModule parseText", () => {
-  let mockNode;
+describe("ParserModule", () => {
+  describe("parseText", () => {
+    let mockNode;
 
-  beforeEach(() => {
-    // create a fresh dom node before each test
-    mockNode = document.createElement("div");
-    document.body.appendChild(mockNode);
-  });
-
-  afterEach(() => {
-    document.body.removeChild(mockNode);
-    // clear mock state between tests
-    // @TODO properly learn what this does
-    jest.clearAllMocks();
-  });
-
-  it("should ignore elements with display none", () => {
-    mockNode.innerHTML = `
-      <div style="display: none;">Hidden Content</div>
-      <div>Visible Content</div>
-    `;
- 
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("Visible Content");
-    expect(result).not.toContain("Hidden Content");
-  });
-
-  it("should ignore elements with display none, including nested elements", () => {
-    mockNode.innerHTML = `
-      <div style="display: none;">
-        Hidden Content
+    beforeEach(() => {
+      // create a fresh dom node before each test
+      mockNode = document.createElement("div");
+      document.body.appendChild(mockNode);
+    });
+  
+    afterEach(() => {
+      document.body.removeChild(mockNode);
+      // clear mock state between tests
+      // @TODO properly learn what this does
+      jest.clearAllMocks();
+    });
+  
+    it("should ignore elements with display none", () => {
+      mockNode.innerHTML = `
+        <div style="display: none;">Hidden Content</div>
+        <div>Visible Content</div>
+      `;
+   
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("Visible Content");
+      expect(result).not.toContain("Hidden Content");
+    });
+  
+    it("should ignore elements with display none, including nested elements", () => {
+      mockNode.innerHTML = `
+        <div style="display: none;">
+          Hidden Content
+          <p>
+            Deeply Hidden Content
+            <span>Deeply Hidden Content</span>
+          </p>
+        </div>
+        <div>Visible Content</div>
+      `;
+  
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("Visible Content");
+      expect(result).not.toContain("Hidden Content");
+      expect(result).not.toContain("Deeply Hidden Content");
+    });
+  
+    it("should ignore style and script tags", () => {
+      mockNode.innerHTML = `
+        <style>.font-medium {font-size: 1em;}</style>
+        <script>alert('test');</script>
+        <div>Visible Content</div>
+      `;
+  
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("Visible Content");
+      expect(result).not.toContain("alert");
+    });
+  
+    it("should ignore bracket references like [1]", () => {
+      mockNode.innerHTML = `
         <p>
-          Deeply Hidden Content
-          <span>Deeply Hidden Content</span>
+          The earliest documented reference to the ditch is in a charter detailing the granting of land in 
+          <a href="/wiki/Audenshaw" title="Audenshaw">Audenshaw</a> 
+          to the monks of the 
+          <a href="/wiki/Kersal" title="Kersal">Kersal Cell</a>. 
+          In the document, dating from 1190&nbsp;to&nbsp;1212, the ditch is referred to as "Mykelldiche", and 
+          a <i>magnum fossatum</i>, which is Latin for "large ditch".
+          <sup class="reference"><a href="#cite_note-N92_78-1"><span class="cite-bracket">[</span>1<span class="cite-bracket">]</span></a></sup>
         </p>
-      </div>
-      <div>Visible Content</div>
-    `;
-
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("Visible Content");
-    expect(result).not.toContain("Hidden Content");
-    expect(result).not.toContain("Deeply Hidden Content");
+      `;
+  
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("The earliest documented reference to the ditch is in a charter detailing the granting of land in");
+      expect(result).not.toContain("[1]");
+    });
+  
+    it("should ignore [edit] section", () => {
+      mockNode.innerHTML = `
+        <div>
+          <h2>Title</h2>
+          <span class="mw-editsection">
+            <span class="mw-editsection-bracket">[</span>
+            <a href="example.com"><span>edit</span></a>
+            <span class="mw-editsection-bracket">]</span>
+          </span>
+        </div>
+      `;
+  
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("Title");
+      expect(result).not.toContain("edit");
+    });
+  
+    it("should return correct image count", () => {
+      mockNode.innerHTML = `
+        <figure><img><figcaption>Picture 1 text</figcaption></figure>
+        <figure><img><figcaption>Picture 2 text</figcaption></figure>
+        <figure style="display:none"><img></figure>
+        <figure"><img style="display:none></figure>
+      `;
+  
+      ParserModule.parseText(mockNode);
+      expect(ParserModule.getImageCount()).toBe(2);
+    });
+  
+  
+    it("should parse image captions", () => {
+      mockNode.innerHTML = `
+        <figure><img><figcaption>Picture 1 text</figcaption></figure>
+        <figure><img><figcaption>Picture 2 text</figcaption></figure>
+        <figure style="display:none"><img></figure>
+        <figure"><img style="display:none></figure>
+      `;
+  
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("Picture 1 text")
+    });
+  
+    it("should ignore anything past See Also section", () => {
+      mockNode.innerHTML = `
+        <div>Content before</div><div class="mw-heading"><h2 id="See_also">See Also</h2></div><div>Content after</div>
+      `;
+  
+      const result = ParserModule.parseText(mockNode);
+      expect(result).toContain("Content before");
+      expect(result).not.toContain("Content after");
+    });
   });
-
-  it("should ignore style and script tags", () => {
-    mockNode.innerHTML = `
-      <style>.font-medium {font-size: 1em;}</style>
-      <script>alert('test');</script>
-      <div>Visible Content</div>
-    `;
-
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("Visible Content");
-    expect(result).not.toContain("alert");
-  });
-
-  it("should ignore bracket references like [1]", () => {
-    mockNode.innerHTML = `
-      <p>
-        The earliest documented reference to the ditch is in a charter detailing the granting of land in 
-        <a href="/wiki/Audenshaw" title="Audenshaw">Audenshaw</a> 
-        to the monks of the 
-        <a href="/wiki/Kersal" title="Kersal">Kersal Cell</a>. 
-        In the document, dating from 1190&nbsp;to&nbsp;1212, the ditch is referred to as "Mykelldiche", and 
-        a <i>magnum fossatum</i>, which is Latin for "large ditch".
-        <sup class="reference"><a href="#cite_note-N92_78-1"><span class="cite-bracket">[</span>1<span class="cite-bracket">]</span></a></sup>
-      </p>
-    `;
-
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("The earliest documented reference to the ditch is in a charter detailing the granting of land in");
-    expect(result).not.toContain("[1]");
-  });
-
-  it("should ignore [edit] section", () => {
-    mockNode.innerHTML = `
-      <div>
-        <h2>Title</h2>
-        <span class="mw-editsection">
-          <span class="mw-editsection-bracket">[</span>
-          <a href="example.com"><span>edit</span></a>
-          <span class="mw-editsection-bracket">]</span>
-        </span>
-      </div>
-    `;
-
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("Title");
-    expect(result).not.toContain("edit");
-  });
-
-  it("should return correct image count", () => {
-    mockNode.innerHTML = `
-      <figure><img><figcaption>Picture 1 text</figcaption></figure>
-      <figure><img><figcaption>Picture 2 text</figcaption></figure>
-      <figure style="display:none"><img></figure>
-      <figure"><img style="display:none></figure>
-    `;
-
-    ParserModule.parseText(mockNode);
-    expect(ParserModule.getImageCount()).toBe(2);
-  });
-
-
-  it("should parse image captions", () => {
-    mockNode.innerHTML = `
-      <figure><img><figcaption>Picture 1 text</figcaption></figure>
-      <figure><img><figcaption>Picture 2 text</figcaption></figure>
-      <figure style="display:none"><img></figure>
-      <figure"><img style="display:none></figure>
-    `;
-
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("Picture 1 text")
-  });
-
-  it("should ignore anything past See Also section", () => {
-    mockNode.innerHTML = `
-      <div>Content before</div><div class="mw-heading"><h2 id="See_also">See Also</h2></div><div>Content after</div>
-    `;
-
-    const result = ParserModule.parseText(mockNode);
-    expect(result).toContain("Content before");
-    expect(result).not.toContain("Content after");
-  });
-
-
 });
