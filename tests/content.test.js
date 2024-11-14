@@ -142,7 +142,7 @@ describe("content/UIModule displayReadingTime", () => {
   });
 });
 
-describe.only("content/ParserModule parseText", () => {
+describe("content/ParserModule parseText", () => {
   let mockNode;
 
   beforeEach(() => {
@@ -185,5 +185,17 @@ describe.only("content/ParserModule parseText", () => {
     expect(result).toContain("Visible Content");
     expect(result).not.toContain("Hidden Content");
     expect(result).not.toContain("Deeply Hidden Content");
+  });
+
+  it("should ignore style and script tags", () => {
+    mockNode.innerHTML = `
+      <style>.font-medium {font-size: 1em;}</style>
+      <script>alert('test');</script>
+      <div>Visible Content</div>
+    `;
+
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("Visible Content");
+    expect(result).not.toContain("alert");
   });
 });
