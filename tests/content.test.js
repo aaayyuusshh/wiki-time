@@ -198,4 +198,22 @@ describe("content/ParserModule parseText", () => {
     expect(result).toContain("Visible Content");
     expect(result).not.toContain("alert");
   });
+
+  it("should ignore bracket references like [1]", () => {
+    mockNode.innerHTML = `
+      <p>
+        The earliest documented reference to the ditch is in a charter detailing the granting of land in 
+        <a href="/wiki/Audenshaw" title="Audenshaw">Audenshaw</a> 
+        to the monks of the 
+        <a href="/wiki/Kersal" title="Kersal">Kersal Cell</a>. 
+        In the document, dating from 1190&nbsp;to&nbsp;1212, the ditch is referred to as "Mykelldiche", and 
+        a <i>magnum fossatum</i>, which is Latin for "large ditch".
+        <sup class="reference"><a href="#cite_note-N92_78-1"><span class="cite-bracket">[</span>1<span class="cite-bracket">]</span></a></sup>
+      </p>
+    `;
+
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("The earliest documented reference to the ditch is in a charter detailing the granting of land in");
+    expect(result).not.toContain("[1]");
+  });
 });
