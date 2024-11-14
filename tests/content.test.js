@@ -245,4 +245,17 @@ describe("content/ParserModule parseText", () => {
     ParserModule.parseText(mockNode);
     expect(ParserModule.getImageCount()).toBe(2);
   });
+
+
+  it("should parse image captions", () => {
+    mockNode.innerHTML = `
+      <figure><img><figcaption>Picture 1 text</figcaption></figure>
+      <figure><img><figcaption>Picture 2 text</figcaption></figure>
+      <figure style="display:none"><img></figure>
+      <figure"><img style="display:none></figure>
+    `;
+
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("Picture 1 text")
+  });
 });
