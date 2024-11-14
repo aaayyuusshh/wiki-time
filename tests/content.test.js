@@ -233,4 +233,16 @@ describe("content/ParserModule parseText", () => {
     expect(result).toContain("Title");
     expect(result).not.toContain("edit");
   });
+
+  it("should return correct image count", () => {
+    mockNode.innerHTML = `
+      <figure><img><figcaption>Picture 1 text</figcaption></figure>
+      <figure><img><figcaption>Picture 2 text</figcaption></figure>
+      <figure style="display:none"><img></figure>
+      <figure"><img style="display:none></figure>
+    `;
+
+    ParserModule.parseText(mockNode);
+    expect(ParserModule.getImageCount()).toBe(2);
+  });
 });
