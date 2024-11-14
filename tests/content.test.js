@@ -216,4 +216,21 @@ describe("content/ParserModule parseText", () => {
     expect(result).toContain("The earliest documented reference to the ditch is in a charter detailing the granting of land in");
     expect(result).not.toContain("[1]");
   });
+
+  it("should ignore [edit] section", () => {
+    mockNode.innerHTML = `
+      <div>
+        <h2>Title</h2>
+        <span class="mw-editsection">
+          <span class="mw-editsection-bracket">[</span>
+          <a href="example.com"><span>edit</span></a>
+          <span class="mw-editsection-bracket">]</span>
+        </span>
+      </div>
+    `;
+
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("Title");
+    expect(result).not.toContain("edit");
+  });
 });
