@@ -258,4 +258,16 @@ describe("content/ParserModule parseText", () => {
     const result = ParserModule.parseText(mockNode);
     expect(result).toContain("Picture 1 text")
   });
+
+  it("should ignore anything past See Also section", () => {
+    mockNode.innerHTML = `
+      <div>Content before</div><div class="mw-heading"><h2 id="See_also">See Also</h2></div><div>Content after</div>
+    `;
+
+    const result = ParserModule.parseText(mockNode);
+    expect(result).toContain("Content before");
+    expect(result).not.toContain("Content after");
+  });
+
+
 });
