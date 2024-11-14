@@ -1,4 +1,4 @@
-describe.only("DOM Mock", () => {
+describe("DOM Mock", () => {
     it("should have a global document", () => {
         expect(global.document).toBeDefined();
         expect(global.document instanceof global.window.Document).toBe(true);
@@ -26,3 +26,26 @@ describe.only("DOM Mock", () => {
         expect(contentElement).not.toBeNull();
     });
 });
+
+describe("Chrome Storage Mock", () => {
+    it("should return wpm value of 300 when key is 'wpm'", async () => {
+      const result = await global.chrome.storage.local.get("wpm");
+      expect(result).toEqual({ wpm: 300 });
+    });
+  
+    it("should return isExtensionOn as true when key is 'isExtensionOn'", async () => {
+      const result = await global.chrome.storage.local.get("isExtensionOn");
+      expect(result).toEqual({ isExtensionOn: true });
+    });
+  
+    it("should return an empty object for any other key", async () => {
+      const result = await global.chrome.storage.local.get("otherKey");
+      expect(result).toEqual({});
+    });
+
+    it("should be called as a mock function", () => {
+        chrome.storage.local.get("wpm");
+        expect(global.chrome.storage.local.get).toHaveBeenCalled();
+        expect(global.chrome.storage.local.get).toHaveBeenCalledWith("wpm");
+      });
+  });
