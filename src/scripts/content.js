@@ -112,7 +112,7 @@ const Utils = (function() {
 
 
 const TimeCalculatorModule = (function() {
-    const SECONDS_PER_IMAGE = 5;
+    const SECONDS_PER_IMAGE = 2;
 
     async function getReadingTime() {
         const result = await chrome.storage.local.get("wpm");
