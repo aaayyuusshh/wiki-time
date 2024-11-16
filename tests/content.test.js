@@ -90,9 +90,9 @@ describe("TimeCalculatorModule", () => {
   });
 
   describe("calculateImageReadingTime", () => {
-    it("should return =~ 0.4166.. mins for 5 images", () => {
+    it("should return =~ 0.166... mins for 5 images", () => {
       const result = TimeCalculatorModule.calculateImageReadingTime(5);
-      expect(result).toBeCloseTo(0.417, 3);
+      expect(result).toBeCloseTo(0.167, 3);
     });
 
     it("should return 0 mins for no images", () => {
@@ -109,7 +109,7 @@ describe("TimeCalculatorModule", () => {
 
     it("should return correct ceiling value", async () => {
       const result = await TimeCalculatorModule.calculateReadingTime(Array(14488).fill("words"), 66);
-      const expected =  Math.ceil((14488/300) + ((5*66)/60)); // 54
+      const expected =  Math.ceil((14488/300) + ((2*66)/60));
       expect(result).toEqual(expected);
     });
 
