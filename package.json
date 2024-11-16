@@ -1,23 +1,13 @@
 {
   "name": "wiki-time",
   "version": "1.0.0",
-  "description": "wiki-time tests",
-  "main": "jest.config.js",
-  "directories": {
-    "test": "testjes"
-  },
+  "description": "wiki-time packages",
   "scripts": {
     "test": "jest --verbose"
   },
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "jest-environment-jsdom-global": "^4.0.0",
     "jsdom": "^25.0.1"
-  },
-  "dependencies": {
-    "jest-fixed-jsdom": "^0.0.6"
   }
 }
