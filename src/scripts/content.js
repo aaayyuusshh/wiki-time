@@ -63,7 +63,6 @@ const ParserModule = (function() {
             // images don't have children so this loop won't run
             for(let childNode of node.childNodes) {
                 if(isReferencesSection(childNode)) {
-                        // console.log("--reached references/citations--");
                         break;
                 }
                 if(isExplorableNode(node)) {
@@ -168,19 +167,14 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
     async function run() {
         const isExtensionOn = (await chrome.storage.local.get("isExtensionOn")).isExtensionOn;
         if(isExtensionOn) {
-            console.log("script is running...");
             const bodyContent = document.querySelector(WIKIPEDIA_BODY);
             if (!bodyContent) {
-                console.error("error: bodyContent is null");
+                console.error("error: unable to read article content");
                 return;
             }
             const articleText = ParserModule.parseText(bodyContent);
-            // console.log(articleText);
-            LOGGER(`image count: ${ParserModule.getImageCount()}`);
             const articleTextList = Utils.extractArticleWords(articleText);
-            // console.log(articleTextList);
             const numOfImages = ParserModule.getImageCount();
-            LOGGER(articleText, articleTextList);
             const readingTime = await TimeCalculatorModule.calculateReadingTime(articleTextList, numOfImages);
             UIModule.displayReadingTime(readingTime);
         }
@@ -193,7 +187,6 @@ const MainModule = (function(ParserModule, Utils, TimeCalculatorModule, UIModule
 
 function initApp() {
     if(document.readyState != "complete") {
-        console.log("waiting for page to load...")
         window.onload = () => {
             MainModule.run();
         }
