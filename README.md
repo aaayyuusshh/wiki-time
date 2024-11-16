@@ -13,7 +13,7 @@ The default reading speed used is 300 words per minute. Click on the extension i
 
 Certain sections like _References_, _Citations_, _Notes_ are ignored during parsing. These sections have the potential to unreasonaly skew reading times to be much higher.
 
-Each image adds x seconds to the reading time. <sub>(🚧  currently working on)</sub>
+Each image adds 2 seconds to the reading time.
 
 **Note** _The main goal here is to provide a rough idea of how long an article might take to read, actual reading times will vary. This is supposed to be just an estimation remember?_ 😉
 
