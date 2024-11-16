@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "wiki-time packages",
   "scripts": {
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "format": "prettier . --write"
   },
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0",
-    "jsdom": "^25.0.1"
+    "jsdom": "^25.0.1",
+    "prettier": "^3.3.3"
   }
 }
