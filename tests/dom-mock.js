@@ -1,5 +1,5 @@
 const { JSDOM } = require("jsdom");
-const TEST_HTML = require("./testHtml.js")
+const TEST_HTML = require("./testHtml.js");
 const { TextEncoder, TextDecoder } = require("util");
 
 global.TextEncoder = TextEncoder;

@@ -1,25 +1,25 @@
-const DOMModule = (function() {
+const DOMModule = (function () {
     const elements = {
-        "radios":  document.getElementsByName("group-one"),
-        "customRadio": document.getElementById("cust"),
-        "customTextbox": document.getElementById("custom-textbox"),
-        "customSetBtn":  document.querySelector(".custom-set-btn"),
-        "toggleBtn":  document.querySelector(".toggle-btn"),
-        "popupContainer":  document.querySelector(".popup-container"),
-        "customContainer": document.querySelector(".custom-container")
-    }
+        radios: document.getElementsByName("group-one"),
+        customRadio: document.getElementById("cust"),
+        customTextbox: document.getElementById("custom-textbox"),
+        customSetBtn: document.querySelector(".custom-set-btn"),
+        toggleBtn: document.querySelector(".toggle-btn"),
+        popupContainer: document.querySelector(".popup-container"),
+        customContainer: document.querySelector(".custom-container")
+    };
     return {
         elements,
         showCustomWpmControls() {
             elements.customTextbox.style.display = "block";
-            elements.customSetBtn.style.display = "block"; 
+            elements.customSetBtn.style.display = "block";
         },
         hideCustomWpmControls() {
             elements.customTextbox.style.display = "none";
-            elements.customSetBtn.style.display = "none"; 
+            elements.customSetBtn.style.display = "none";
         },
         emptyCustomTextboxValue() {
-            elements.customTextbox.value = '';
+            elements.customTextbox.value = "";
         },
         disableCustomSetBtn() {
             elements.customSetBtn.disabled = true;
@@ -28,7 +28,7 @@ const DOMModule = (function() {
             elements.customSetBtn.disabled = false;
         },
         getCustomTextboxValue() {
-            return elements.customTextbox.value; 
+            return elements.customTextbox.value;
         },
         unGrayOutPopup() {
             elements.popupContainer.style.filter = "none";
@@ -37,34 +37,34 @@ const DOMModule = (function() {
             elements.popupContainer.style.filter = "grayscale(100%)";
         },
         addToggleButtonText(isOn) {
-            elements.toggleBtn.textContent = isOn ? "❚❚ disable WikiTime" : "► enable WikiTime"; 
+            elements.toggleBtn.textContent = isOn ? "❚❚ disable WikiTime" : "► enable WikiTime";
         },
         toggleAllRadiosDisabledStatus(status) {
-            elements.radios.forEach(radio => radio.disabled = status);
+            elements.radios.forEach((radio) => (radio.disabled = status));
         },
         toggleCustomTextboxDisabledStatus(status) {
             elements.customTextbox.disabled = status;
         }
-    }
+    };
 })();
 
-const DOMLogic = (function(DOM) {
+const DOMLogic = (function (DOM) {
     function saveWpm(wpm) {
-        chrome.storage.local.set({wpm: wpm});
+        chrome.storage.local.set({ wpm: wpm });
     }
-    
+
     function handleRadioChange(event) {
         let radio = event.target;
         DOM.emptyCustomTextboxValue();
         DOM.disableCustomSetBtn();
-        if(radio.value == "custom") {
-            DOM.showCustomWpmControls(); 
+        if (radio.value == "custom") {
+            DOM.showCustomWpmControls();
         } else {
             DOM.hideCustomWpmControls();
             saveWpm(radio.value);
         }
     }
-    
+
     // @TODO think about this one
     function setCustomWpmState(storedWpm) {
         DOM.elements.customRadio.checked = true;
@@ -72,61 +72,60 @@ const DOMLogic = (function(DOM) {
         DOM.elements.customTextbox.value = storedWpm;
         DOM.elements.customSetBtn.disabled = true;
     }
-    
+
     function initializeRadios(storedWpm) {
         let matched = false;
-        DOM.elements.radios.forEach(radio => {
-            if(radio.value == storedWpm) {
-               radio.checked = true;
-               matched = true;
-            } 
-            radio.addEventListener("change", handleRadioChange)
+        DOM.elements.radios.forEach((radio) => {
+            if (radio.value == storedWpm) {
+                radio.checked = true;
+                matched = true;
+            }
+            radio.addEventListener("change", handleRadioChange);
         });
-    
-        if(!matched && storedWpm) {
+
+        if (!matched && storedWpm) {
             setCustomWpmState(storedWpm);
         }
     }
-    
+
     function initializeCustomWpmSection() {
         DOM.elements.customSetBtn.addEventListener("click", () => {
             let customWPM = DOM.getCustomTextboxValue();
-            if(customWPM) {          
+            if (customWPM) {
                 saveWpm(customWPM);
                 DOM.disableCustomSetBtn();
             }
         });
-    
+
         DOM.elements.customTextbox.addEventListener("input", () => {
-            if(DOM.getCustomTextboxValue()) {
+            if (DOM.getCustomTextboxValue()) {
                 DOM.enableCustomSetBtn();
             } else {
                 DOM.disableCustomSetBtn();
             }
         });
     }
-    
+
     function initializeToggle() {
         DOM.elements.toggleBtn.addEventListener("click", async () => {
             let result = await chrome.storage.local.get("isExtensionOn");
             let isExtensionOn = result.isExtensionOn;
             setPopupState(!isExtensionOn);
-            await chrome.storage.local.set({isExtensionOn: !isExtensionOn});
+            await chrome.storage.local.set({ isExtensionOn: !isExtensionOn });
         });
     }
-    
+
     function setPopupState(isExtensionOn) {
-        if(isExtensionOn) {
+        if (isExtensionOn) {
             DOM.unGrayOutPopup();
             DOM.addToggleButtonText(isExtensionOn);
-        } 
-        else {
+        } else {
             DOM.grayOutPopup();
             DOM.addToggleButtonText(isExtensionOn);
         }
         togglePopupControls(!isExtensionOn);
     }
-    
+
     function togglePopupControls(bool) {
         DOM.toggleAllRadiosDisabledStatus(bool);
         DOM.toggleCustomTextboxDisabledStatus(bool);
@@ -134,7 +133,7 @@ const DOMLogic = (function(DOM) {
     }
 
     function run() {
-        chrome.storage.local.get(["wpm", "isExtensionOn"]).then(result => {
+        chrome.storage.local.get(["wpm", "isExtensionOn"]).then((result) => {
             setPopupState(result.isExtensionOn);
             initializeRadios(result.wpm);
             initializeCustomWpmSection();
@@ -142,8 +141,7 @@ const DOMLogic = (function(DOM) {
         });
     }
 
-    return { run }
-
+    return { run };
 })(DOMModule);
 
 DOMLogic.run();

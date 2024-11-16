@@ -1,5 +1,4 @@
-const TEST_HTML = 
-`
+const TEST_HTML = `
 <h1 id="firstHeading" class="firstHeading mw-first-heading">
     <span class="mw-page-title-main">Nico Ditch</span>
  </h1>
@@ -160,5 +159,5 @@ const TEST_HTML =
     </ul>
     <p class="mw-empty-elt"></p>
  </div>
-`
+`;
 module.exports = TEST_HTML;
