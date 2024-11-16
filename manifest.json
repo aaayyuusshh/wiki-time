@@ -5,8 +5,11 @@
     "description": "Displays the estimated reading time of Wikipedia articles.",
     "version": "1.0.0",
     "icons": {
-        "128": "assets/icon-rounded.png"   
-    },
+        "16": "assets/icon-16.png",
+        "32": "assets/icon-32.png",
+        "48": "assets/icon-48.png",
+        "128": "assets/icon-128.png"
+      },
     "content_scripts" : [
         {
             "js": ["src/scripts/content.js"],
