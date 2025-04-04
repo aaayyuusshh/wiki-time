@@ -6,7 +6,7 @@
  <h1 align="center">WikiTime</h1>
  <p align="center">This extension displays the estimated reading time of Wikipedia articles.</p>
  <p align="center">
-    <a align="center" href="https://www.example.com](https://chromewebstore.google.com/detail/wikitime-reading-time-for/hbfdcancoadfmllecbdadfmjmjglipfn)" target="_blank">Get it on the Chrome Web Store</a>
+    <a align="center" href="https://chromewebstore.google.com/detail/wikitime-reading-time-for/hbfdcancoadfmllecbdadfmjmjglipfn" target="_blank">Get it on the Chrome Web Store</a>
  </p>
 
 
