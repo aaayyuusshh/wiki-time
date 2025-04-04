@@ -5,6 +5,10 @@
 </p>
  <h1 align="center">WikiTime</h1>
  <p align="center">This extension displays the estimated reading time of Wikipedia articles.</p>
+ <p align="center">
+    <a align="center" href="https://www.example.com](https://chromewebstore.google.com/detail/wikitime-reading-time-for/hbfdcancoadfmllecbdadfmjmjglipfn)" target="_blank">Get it on the Chrome Web Store</a>
+ </p>
+
 
 ## Overview
 WikiTime parses the `html` of an article, extracts the relevant words in it, then uses the word count and the user's reading speed _(words per minute)_ to calculate the estimate. 
